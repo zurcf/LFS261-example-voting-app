@@ -233,8 +233,6 @@ pipeline {
       }
 
 
-
-
       steps {
             echo 'Running Sonarqube Analysis..'
             withSonarQubeEnv('sonar-instavote') {
