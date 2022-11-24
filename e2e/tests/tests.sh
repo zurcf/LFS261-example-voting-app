@@ -9,11 +9,11 @@ while ! timeout 1 bash -c "echo > /dev/tcp/vote/80"; do
 done
 
 # add initial vote 
-curl -sS -X POST --data "vote=a" http://vote #> /dev/null
+curl -sS -X POST --data "vote=a" http://vote > /dev/null
 
 current=`phantomjs render.js "http://result:4000/" | grep -i vote | cut -d ">" -f 4 | cut -d " " -f1`
 # echo $current
-if [ -z "$current" ]; then current=0; else echo "Not NULL"; fi
+if [ -z "$current" ]; then current=1; else echo "Not NULL"; fi
 
 next=`echo "$(($current + 1))"`
 
@@ -23,9 +23,9 @@ next=`echo "$(($current + 1))"`
 
 echo -e " I: Submitting one more vote...\n"
 
-curl -sS -X POST --data "vote=b" http://vote #> /dev/null
+curl -sS -X POST --data "vote=b" http://vote > /dev/null
 sleep 3
-# phantomjs render.js "http://result:4000/" | grep -i vote | cut -d ">" -f 4 | cut -d " " -f1
+
 new=`phantomjs render.js "http://result:4000/" | grep -i vote | cut -d ">" -f 4 | cut -d " " -f1`
 
 if [ -z "$new" ]; then new=`echo "$(($next))"`; else echo "Not NULL"; fi
